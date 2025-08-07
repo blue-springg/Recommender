@@ -31,19 +31,25 @@ p {
   padding: 0 20px;
 }
 
+/* Make all images same size and cropped nicely */
 img {
-  border: 5px solid #344141;
-  border-radius: 35px;
   width: 100%;
   height: 250px;
   object-fit: cover;
+  border: 5px solid #344141;
+  border-radius: 20px;
   display: block;
 }
 
+/* Make all figure blocks consistent size */
 figure {
-  text-align: center;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   padding: 10px;
+  margin: 0;
+  text-align: center;
 }
 
 figcaption {
@@ -52,32 +58,12 @@ figcaption {
   color: #f0e68c;
 }
 
+/* Grid layout: responsive and equal size blocks */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   padding: 10px;
-}
-
-/* Remove these outdated media-query-based grid overrides */
-@media (min-width: 772px) {
-  figure {
-    border-radius: 50%;
-  }
-
-  figure:last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (min-width: 992px) {
-  figure {
-    border-radius: 0;
-  }
-
-  figure:nth-of-type(3n) {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -86,6 +72,7 @@ figcaption {
   }
 }
 
+/* Optional dark mode tweak */
 @media (prefers-color-scheme: dark) {
   figure {
     background-color: #111;
@@ -94,8 +81,17 @@ figcaption {
   }
 }
 
+/* FOOTER STYLING FIX */
+footer {
+  text-align: center;
+  margin: 50px 0 20px;
+  font-style: italic;
+  font-size: 1.2em;
+  color: white; /* footer text color */
+}
+
 footer a {
-  color: white;
+  color: white; /* link color */
   text-decoration: none;
   display: inline-block;
   margin-bottom: 10px;
@@ -103,12 +99,4 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
-}
-
-footer {
-  text-align: center;
-  margin: 50px 0 20px;
-  font-style: italic;
-  font-size: 1.2em;
-  color: #344141;
 }
