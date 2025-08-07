@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-color: navy;
+  background-color: #2c3e50; /* blue-gray */
   color: white;
   margin: 0;
   padding: 0;
@@ -32,7 +32,7 @@ p {
 }
 
 img {
-  border: 5px solid #344141; /* changed from blue */
+  border: 5px solid #344141; /* subtle dark border */
   border-radius: 35px;
   width: 100%;
   height: auto;
@@ -101,5 +101,5 @@ footer {
   margin: 50px 0 20px;
   font-style: italic;
   font-size: 1.2em;
-  color: #344141; /* changed from #87CEFA */
+  color: #344141;
 }
