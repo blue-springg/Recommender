@@ -32,10 +32,11 @@ p {
 }
 
 img {
-  border: 5px solid #344141; /* subtle dark border */
+  border: 5px solid #344141;
   border-radius: 35px;
   width: 100%;
-  height: auto;
+  height: 250px;
+  object-fit: cover;
   display: block;
 }
 
@@ -53,16 +54,13 @@ figcaption {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
   padding: 10px;
 }
 
+/* Remove these outdated media-query-based grid overrides */
 @media (min-width: 772px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   figure {
     border-radius: 50%;
   }
