@@ -5,38 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie & Series Recommender</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>Movie & Series Recommender</h1>
-        <p>Get personalized recommendations based on your favorite genre!</p>
+        <p>Discover personalized recommendations based on your favorite genre</p>
     </header>
     
     <main>
         <section id="choice-section">
             <h2>What are you in the mood for?</h2>
-            <button id="movies-btn">Movies</button>
-            <button id="series-btn">Series</button>
+            <div class="button-group">
+                <button id="movies-btn" class="choice-btn">Movies</button>
+                <button id="series-btn" class="choice-btn">Series</button>
+            </div>
         </section>
         
         <section id="genre-section" class="hidden">
             <h2>Select Your Favorite Genre</h2>
-            <select id="genre-select">
-                <option value="">Choose a genre...</option>
-                <!-- Genres will be populated dynamically via JS -->
-            </select>
-            <button id="get-recommendations">Get Recommendations</button>
+            <div class="form-group">
+                <select id="genre-select">
+                    <option value="">Choose a genre...</option>
+                    <!-- Genres will be populated dynamically via JS -->
+                </select>
+                <button id="get-recommendations" class="primary-btn">Get Recommendations</button>
+            </div>
         </section>
         
         <section id="results-section" class="hidden">
-            <h2>Recommendations</h2>
-            <div id="results-grid"></div>
-            <button id="back-btn">Back to Start</button>
+            <h2>Your Recommendations</h2>
+            <div id="results-grid" class="results-grid"></div>
+            <button id="back-btn" class="secondary-btn">Back to Start</button>
         </section>
     </main>
     
     <footer>
-        <p>Powered by TMDB API | Built with ❤️ by [Your Name]</p>
+        <p>Powered by TMDB API | Built with ❤️ by Blue spring </p>
     </footer>
     
     <script src="script.js"></script>
