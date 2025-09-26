@@ -133,6 +133,7 @@ function resetApp() {
 async function fetchRecommendations(type, genreId) {
     getRecommendationsBtn.textContent = 'Loading...';
     getRecommendationsBtn.disabled = true;
+    resultsGrid.innerHTML = '<div class="loader"></div>'; // Visual feedback
     
     try {
         const endpoint = type === 'movie' ? 'discover/movie' : 'discover/tv';
@@ -143,13 +144,15 @@ async function fetchRecommendations(type, genreId) {
         const response = await fetch(url);
         
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}. Check your API key or try again.`);
+            throw new Error(`API error: ${response.status} - Check your API key or try again.`);
         }
         
         const data = await response.json();
         
         if (!data.results || data.results.length === 0) {
-            throw new Error('No recommendations found. Try a different genre!');
+            resultsGrid.innerHTML = '<p>No recommendations found for this genre. Try another!</p>';
+            showSection(resultsSection);
+            return;
         }
         
         displayResults(data.results.slice(0, 12), type); // Show up to 12
@@ -157,7 +160,9 @@ async function fetchRecommendations(type, genreId) {
         
     } catch (error) {
         console.error('Fetch error:', error);
-        alert(`Oops! ${error.message}\n\nIf this persists, ensure your TMDB API key is valid and active. Test it in a browser: https://api.themoviedb.org/3/discover/movie?api_key=YOUR_KEY&with_genres=28`);
+        resultsGrid.innerHTML = `<p>Error: ${error.message}</p>`;
+        showSection(resultsSection);
+        alert(`Oops! ${error.message}\n\nIf this persists, ensure your TMDB API key is valid and active. Test it in a browser: https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`);
     } finally {
         getRecommendationsBtn.textContent = 'Get Recommendations';
         getRecommendationsBtn.disabled = false;
