@@ -1,5 +1,5 @@
 // TMDB API Configuration
-const API_KEY = '36fc680c95e6f17d90d0c32d894e2bfa'; // Updated with provided key
+const API_KEY = '36fc680c95e6f17d90d0c32d894e2bfa';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -131,7 +131,7 @@ async function fetchRecommendations(type, genreId) {
 
     try {
         const endpoint = type === 'movie' ? 'discover/movie' : 'discover/tv';
-        const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&vote_count.gte=100`; // Filter for items with at least 100 votes
+        const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&vote_count.gte=100`;
         
         const response = await fetch(url);
         
