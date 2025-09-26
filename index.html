@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover personalized movie and series recommendations based on your favorite genres.">
+    <meta name="author" content="Blue Spring">
     <title>Movie & Series Recommender</title>
+    <link rel="icon" type="image/png" href="favicon.png"> <!-- Add a favicon.png to your repo -->
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -27,7 +30,7 @@
             <div class="form-group">
                 <select id="genre-select">
                     <option value="">Choose a genre...</option>
-                    <!-- Genres will be populated dynamically via JS -->
+                    <!-- Genres populated via JS -->
                 </select>
                 <button id="get-recommendations" class="primary-btn">Get Recommendations</button>
             </div>
@@ -41,7 +44,7 @@
     </main>
     
     <footer>
-        <p>Powered by TMDB API | Built with ❤️ by Blue spring </p>
+        <p>Powered by <a href="https://www.themoviedb.org" target="_blank">TMDB API</a> | Built with ❤️ by Blue Spring</p>
     </footer>
     
     <script src="script.js"></script>
