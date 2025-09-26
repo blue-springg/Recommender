@@ -8,7 +8,7 @@
     <title>Movie & Series Recommender</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -17,7 +17,7 @@
     </header>
     
     <main>
-        <section id="choice-section" role="region" aria-label="Content type selection">
+        <section id="choice-section" role="region" aria-label="Content type selection" class="section-animate">
             <h2>What are you in the mood for?</h2>
             <div class="button-group">
                 <button id="movies-btn" class="choice-btn" aria-label="Select Movies">Movies</button>
@@ -25,7 +25,7 @@
             </div>
         </section>
         
-        <section id="genre-section" class="hidden" role="region" aria-label="Genre selection">
+        <section id="genre-section" class="hidden section-animate" role="region" aria-label="Genre selection">
             <h2>Select Your Favorite Genre</h2>
             <div class="form-group">
                 <select id="genre-select" aria-label="Choose a genre">
@@ -35,7 +35,7 @@
             </div>
         </section>
         
-        <section id="results-section" class="hidden" role="region" aria-label="Recommendation results">
+        <section id="results-section" class="hidden section-animate" role="region" aria-label="Recommendation results">
             <h2>Your Recommendations</h2>
             <div id="results-grid" class="results-grid"></div>
             <button id="back-btn" class="secondary-btn" aria-label="Back to start">Back to Start</button>
