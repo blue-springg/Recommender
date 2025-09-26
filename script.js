@@ -1,10 +1,5 @@
 // TMDB API Configuration
-// IMPORTANT: Replace 'YOUR_TMDB_API_KEY_HERE' with your actual free API key from https://www.themoviedb.org/settings/api
-// Steps: 1. Sign up/login to TMDB. 2. Go to Settings > API. 3. Create a new API key (v3 auth). 4. Paste it here.
-// Without a valid key, the app will show the error - it's required for real data!
-const API_KEY = 'YOUR_TMDB_API_KEY_HERE'; // <- CHANGE THIS!
-
-// Base URLs
+const API_KEY = '36fc680c95e6f17d90d0c32d894e2bfa'; // Updated with provided key
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -81,11 +76,7 @@ seriesBtn.addEventListener('click', () => {
 getRecommendationsBtn.addEventListener('click', () => {
     const genreId = genreSelect.value;
     if (!genreId) {
-        alert('Please select a genre first!');
-        return;
-    }
-    if (API_KEY === 'YOUR_TMDB_API_KEY_HERE') {
-        alert('Please add your TMDB API key to script.js! Sign up at https://www.themoviedb.org/settings/api');
+        showError('Please select a genre to continue.');
         return;
     }
     fetchRecommendations(selectedType, genreId);
@@ -97,7 +88,6 @@ backBtn.addEventListener('click', () => {
 
 // Functions
 function populateGenres(genres) {
-    // Clear existing options except the placeholder
     genreSelect.innerHTML = '<option value="">Choose a genre...</option>';
     genres.forEach(genre => {
         const option = document.createElement('option');
@@ -108,11 +98,9 @@ function populateGenres(genres) {
 }
 
 function showSection(sectionToShow) {
-    // Hide all sections
     choiceSection.classList.add('hidden');
     genreSection.classList.add('hidden');
     resultsSection.classList.add('hidden');
-    // Show target
     sectionToShow.classList.remove('hidden');
 }
 
@@ -128,41 +116,52 @@ function resetApp() {
     moviesBtn.style.display = 'block';
     seriesBtn.style.display = 'block';
     getRecommendationsBtn.textContent = 'Get Recommendations';
+    getRecommendationsBtn.disabled = false;
+}
+
+function showError(message) {
+    resultsGrid.innerHTML = `<p class="error-message">${message}</p>`;
+    showSection(resultsSection);
 }
 
 async function fetchRecommendations(type, genreId) {
     getRecommendationsBtn.textContent = 'Loading...';
     getRecommendationsBtn.disabled = true;
-    resultsGrid.innerHTML = '<div class="loader"></div>'; // Visual feedback
-    
+    resultsGrid.innerHTML = '<div class="loader"></div>';
+
     try {
         const endpoint = type === 'movie' ? 'discover/movie' : 'discover/tv';
-        const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US`;
-        
-        console.log('Fetching from:', url); // For debugging - check browser console
+        const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&vote_count.gte=100`; // Filter for items with at least 100 votes
         
         const response = await fetch(url);
         
         if (!response.ok) {
-            throw new Error(`API error: ${response.status} - Check your API key or try again.`);
+            throw new Error(`Failed to fetch recommendations. Please check your internet connection or API key.`);
         }
         
         const data = await response.json();
         
         if (!data.results || data.results.length === 0) {
-            resultsGrid.innerHTML = '<p>No recommendations found for this genre. Try another!</p>';
-            showSection(resultsSection);
+            showError('No recommendations found for this genre. Try another one!');
             return;
         }
         
-        displayResults(data.results.slice(0, 12), type); // Show up to 12
+        // Filter out items without posters and low ratings
+        const filteredResults = data.results
+            .filter(item => item.poster_path && item.vote_average >= 5)
+            .slice(0, 12); // Limit to 12 results
+        
+        if (filteredResults.length === 0) {
+            showError('No high-quality recommendations found. Try a different genre!');
+            return;
+        }
+        
+        displayResults(filteredResults, type);
         showSection(resultsSection);
         
     } catch (error) {
         console.error('Fetch error:', error);
-        resultsGrid.innerHTML = `<p>Error: ${error.message}</p>`;
-        showSection(resultsSection);
-        alert(`Oops! ${error.message}\n\nIf this persists, ensure your TMDB API key is valid and active. Test it in a browser: https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`);
+        showError(`Oops! Something went wrong: ${error.message}`);
     } finally {
         getRecommendationsBtn.textContent = 'Get Recommendations';
         getRecommendationsBtn.disabled = false;
@@ -177,20 +176,24 @@ function displayResults(items, type) {
         
         const img = document.createElement('img');
         img.src = item.poster_path ? `${IMG_BASE_URL}${item.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Image';
-        img.alt = (item.title || item.name) + ' poster';
+        img.alt = `${item.title || item.name} poster`;
         img.loading = 'lazy';
         
         const info = document.createElement('div');
         info.classList.add('card-info');
         
         const title = document.createElement('h3');
-        title.textContent = item.title || item.name;
+        title.textContent = item.title || item.name || 'Untitled';
         
         const rating = document.createElement('p');
-        rating.innerHTML = `⭐ ${item.vote_average.toFixed(1)} / 10`;
+        rating.innerHTML = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'} / 10`;
+        
+        const overview = document.createElement('p');
+        overview.textContent = item.overview ? item.overview.slice(0, 100) + '...' : 'No description available.';
         
         info.appendChild(title);
         info.appendChild(rating);
+        info.appendChild(overview);
         card.appendChild(img);
         card.appendChild(info);
         resultsGrid.appendChild(card);
