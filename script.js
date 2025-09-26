@@ -3,9 +3,11 @@ const API_KEY = '36fc680c95e6f17d90d0c32d894e2bfa';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-// Genre lists (updated with accurate TMDB IDs for 2025)
+// Genre lists (updated with Anime)
 const movieGenres = [
     { id: 28, name: 'Action' },
+    { id: 10749, name: 'Romance' },
+    { id: 'anime', name: 'Anime', keyword: 210024 }, // Custom Anime genre using keyword
     { id: 12, name: 'Adventure' },
     { id: 16, name: 'Animation' },
     { id: 35, name: 'Comedy' },
@@ -18,7 +20,6 @@ const movieGenres = [
     { id: 27, name: 'Horror' },
     { id: 10402, name: 'Music' },
     { id: 9648, name: 'Mystery' },
-    { id: 10749, name: 'Romance' },
     { id: 878, name: 'Science Fiction' },
     { id: 53, name: 'Thriller' },
     { id: 10752, name: 'War' },
@@ -27,6 +28,7 @@ const movieGenres = [
 
 const tvGenres = [
     { id: 10759, name: 'Action & Adventure' },
+    { id: 'anime', name: 'Anime', keyword: 210024 }, // Custom Anime genre using keyword
     { id: 16, name: 'Animation' },
     { id: 35, name: 'Comedy' },
     { id: 80, name: 'Crime' },
@@ -79,7 +81,8 @@ getRecommendationsBtn.addEventListener('click', () => {
         showError('Please select a genre to continue.');
         return;
     }
-    fetchRecommendations(selectedType, genreId);
+    const selectedGenre = (selectedType === 'movie' ? movieGenres : tvGenres).find(g => g.id == genreId);
+    fetchRecommendations(selectedType, genreId, selectedGenre.keyword);
 });
 
 backBtn.addEventListener('click', () => {
@@ -115,7 +118,7 @@ function resetApp() {
     resultsGrid.innerHTML = '';
     moviesBtn.style.display = 'block';
     seriesBtn.style.display = 'block';
-    getRecommendationsBtn.textContent = 'Get Recommendations';
+    getRecommendationsBtn.textContent = 'Find Recommendations';
     getRecommendationsBtn.disabled = false;
 }
 
@@ -124,14 +127,21 @@ function showError(message) {
     showSection(resultsSection);
 }
 
-async function fetchRecommendations(type, genreId) {
+async function fetchRecommendations(type, genreId, keyword = null) {
     getRecommendationsBtn.textContent = 'Loading...';
     getRecommendationsBtn.disabled = true;
     resultsGrid.innerHTML = '<div class="loader"></div>';
 
     try {
         const endpoint = type === 'movie' ? 'discover/movie' : 'discover/tv';
-        const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&vote_count.gte=100`;
+        let url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}&sort_by=popularity.desc&language=en-US&vote_count.gte=100`;
+        
+        // Add genre or keyword filter
+        if (genreId === 'anime' && keyword) {
+            url += `&with_keywords=${keyword}`;
+        } else {
+            url += `&with_genres=${genreId}`;
+        }
         
         const response = await fetch(url);
         
@@ -163,7 +173,7 @@ async function fetchRecommendations(type, genreId) {
         console.error('Fetch error:', error);
         showError(`Oops! Something went wrong: ${error.message}`);
     } finally {
-        getRecommendationsBtn.textContent = 'Get Recommendations';
+        getRecommendationsBtn.textContent = 'Find Recommendations';
         getRecommendationsBtn.disabled = false;
     }
 }
