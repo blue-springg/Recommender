@@ -7,8 +7,8 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%); /* Dark indigo to magenta */
-    color: #f3e8ff; /* Soft purple-white text */
+    background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%);
+    color: #f3e8ff;
     line-height: 1.6;
     padding: 32px;
     min-height: 100vh;
@@ -27,7 +27,7 @@ header h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 3.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); /* Vibrant purple to pink */
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -37,7 +37,7 @@ header h1 {
 
 header p {
     font-size: 1.2rem;
-    color: #d8b4fe; /* Soft lavender */
+    color: #d8b4fe;
     font-weight: 400;
 }
 
@@ -87,7 +87,7 @@ h2 {
     border-radius: 12px;
     transition: all 0.3s ease;
     margin: 0 12px;
-    backdrop-filter: blur(8px); /* Glassmorphism effect */
+    backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
@@ -129,6 +129,16 @@ h2 {
     background: #d8b4fe;
     color: #1e1b4b;
     transform: scale(1.05);
+}
+
+/* Button group */
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
 /* Form group */
@@ -288,15 +298,18 @@ footer a:hover {
     }
     
     .button-group {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px; /* Reduced gap for better fit */
     }
     
     .choice-btn {
-        width: 100%;
-        max-width: 220px;
+        width: auto;
+        max-width: 180px; /* Adjusted for better fit */
         margin: 0;
+        padding: 12px 24px;
+        font-size: 1rem; /* Slightly smaller font */
     }
     
     select {
@@ -321,6 +334,18 @@ footer a:hover {
     
     h2 {
         font-size: 1.6rem;
+    }
+    
+    .button-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .choice-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        max-width: 140px; /* Further reduced for small screens */
     }
     
     .card-info {
